@@ -1,0 +1,68 @@
+# ── Workflow 2: Python CI ───────────────────────────────────────────────
+# A realistic CI pipeline. Demonstrates:
+#   • triggers on push to main AND on every pull request  → PRs get a ✅/❌
+#   • PARALLEL jobs      → `lint` and `test` have no `needs:`, so they race
+#   • a job MATRIX       → `test` fans out across 3 Python versions
+#   • SEQUENTIAL jobs    → `build` declares `needs: [lint, test]`
+#   • marketplace actions → actions/checkout, actions/setup-python, ...
+#   • variables           → workflow-level `env:` referenced in steps
+#   • artifacts           → `build` uploads a package you can download
+#
+name: 02 - Python CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:          # any PR, targeting any branch
+  workflow_dispatch:
+
+env:
+  APP_NAME: team-toolbox # workflow-level variable, visible in every job
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # `uses:` pulls a reusable action from the GitHub Marketplace.
+      # Pinning a major version (@v4) is the common convention.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ruff
+        run: pip install ruff
+      - name: Lint
+        run: ruff check .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # One parallel job per entry — watch the Actions UI fan out.
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest -v
+
+  build:
+    # `needs:` makes this job SEQUENTIAL: it only starts after
+    # every job listed here has succeeded.
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package the app
+        run: |
+          mkdir -p dist
+          tar czf "dist/${{ env.APP_NAME }}.tar.gz" app/
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}
+          path: dist/
