@@ -24,4 +24,5 @@ def multiply(a: float, b: float) -> float:
 # tests/test_calculator.py waiting for you. See docs/exercises.md.
 def divide(a: float, b: float) -> float:
     """Return a divided by b."""
+    print('Dividing...')
     return a / b
