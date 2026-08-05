@@ -1,0 +1,50 @@
+# ── Workflow 4: Claude Code on GitHub ───────────────────────────────────
+# Mention @claude in any issue or PR comment and Claude will answer:
+# it can review the diff, explain code, implement requested changes and
+# push commits to the PR branch.
+#
+# One-time setup (the easy way): inside a Claude Code terminal session run
+#     /install-github-app
+# It installs the Claude GitHub App on the repo and walks you through
+# storing the required secret. (This API key is the ONE GitHub secret this
+# session uses — a nice moment to show Settings → Secrets and variables → Actions.)
+#
+name: Claude
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+  issues:
+    types: [opened]
+
+jobs:
+  claude:
+    # Only react when someone actually writes "@claude"
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # push commits
+      pull-requests: write   # comment on / update PRs
+      issues: write          # comment on issues
+      id-token: write
+      actions: read          # read CI results to help fix failures
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # If you set up with a Claude subscription instead of an API key,
+          # /install-github-app stores an OAuth token — then use this instead:
+          # claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
