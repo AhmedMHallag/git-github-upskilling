@@ -20,7 +20,6 @@ def test_multiply():
 
 
 # Exercise: implement divide() in app/calculator.py, then remove this skip marker.
-@pytest.mark.skip(reason="divide() is not implemented yet — that's YOUR feature branch")
 def test_divide():
     assert calculator.divide(10, 4) == 2.5
     with pytest.raises(ZeroDivisionError):
