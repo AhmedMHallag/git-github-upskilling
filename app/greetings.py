@@ -6,6 +6,6 @@ def greet(name: str) -> str:
     return f"Hello, {name}! Welcome to the session."
 
 
-# TODO(session): a farewell(name) function already exists as a commit on the
-# branch `demo/cherry-pick-me` — bring it over with `git cherry-pick`.
-# See docs/exercises.md.
+def farewell(name: str) -> str:
+    """Return a friendly goodbye."""
+    return f"Goodbye, {name} — see you at the next session!"
