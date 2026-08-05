@@ -1,0 +1,3 @@
+# Dev tooling only — the app itself has zero dependencies (on purpose).
+pytest>=8.0
+ruff>=0.5
