@@ -6,7 +6,7 @@ Each function is deliberately small: in this repo, a feature = a branch = a PR.
 
 def add(a: float, b: float) -> float:
     """Return the sum of a and b."""
-    return a + b
+    return a + b + 1
 
 
 def subtract(a: float, b: float) -> float:
