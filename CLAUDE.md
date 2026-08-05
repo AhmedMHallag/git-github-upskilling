@@ -21,7 +21,9 @@ python -m app.cli greet Ada       # run the demo CLI
 
 ## Conventions
 
-- Branch names: `feature/<thing>`, `fix/<thing>`, `docs/<thing>`.
+- Branch names: `feature/<thing>`, `fix/<thing>`, `docs/<thing>`. During shared
+  training sessions, namespace with the author: `feature/<YourName>/<thing>`
+  (e.g. `feature/AhmedA/divide`).
 - Commit messages: conventional-commit style subject (`feat: ...`, `fix: ...`,
   `docs: ...`, `ci: ...`, `test: ...`, `chore: ...`), imperative mood,
   ≤ 72 chars; add a body explaining *why* for non-trivial changes.

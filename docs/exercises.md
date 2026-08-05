@@ -6,11 +6,14 @@ are copy-pasteable. Facilitator demos first, then everyone repeats.
 > Prerequisite: you completed the [README setup](../README.md#-setup-do-this-before-the-session)
 > and `pytest` is green.
 
-> **We all share this repo**, so append your name to every branch you create —
-> e.g. `feature/divide-ahmed` instead of `feature/divide` (the exercises below
-> use the short names for readability). In the live session we'll fully merge
-> **one** volunteer's PR; everyone else completes the whole ritual and then
-> closes their PR without merging — you still did every step.
+> **We all share this repo**, so namespace every branch with your name:
+> `feature/<YourName>/<thing>` — e.g. `feature/AhmedA/divide` instead of
+> `feature/divide` (the exercises below use the short names for readability).
+> That way everyone can build the same feature without collisions, and the
+> branch dropdown on GitHub groups each person's work together. In the live
+> session we'll fully merge **one** volunteer's PR; everyone else completes
+> the whole ritual and then closes their PR without merging — you still did
+> every step.
 
 ---
 
@@ -35,7 +38,7 @@ git blame app/calculator.py           # who wrote each line, in which commit
 The calculator can't divide. Fix that — *on a branch*.
 
 ```bash
-git switch -c feature/divide
+git switch -c feature/divide     # in the live session: feature/<YourName>/divide
 ```
 
 Edit `app/calculator.py` and implement:
@@ -152,7 +155,7 @@ view + GitHub Pull Requests extension). Same Git, different buttons.
 See CI actually protect `main`:
 
 ```bash
-git switch -c fix/deliberately-broken
+git switch -c fix/deliberately-broken   # live session: fix/<YourName>/deliberately-broken
 ```
 
 Edit `app/calculator.py`: make `add()` return `a + b + 1`. Push and open a PR:
@@ -204,8 +207,8 @@ Then, in the chat, one step at a time:
 
 > Run the tests.
 
-> Create a branch feature/power, stage everything and commit with a
-  proper message, then push and open a PR.
+> Create a branch feature/<YourName>/power, stage everything and commit
+  with a proper message, then push and open a PR.
 ```
 
 While the PR is open, go to GitHub and comment on it:

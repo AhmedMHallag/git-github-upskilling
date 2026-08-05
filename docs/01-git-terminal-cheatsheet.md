@@ -54,7 +54,9 @@ git switch main                  # jump back to main
 git branch -d feature/divide     # delete a merged branch (keep things tidy!)
 ```
 
-Branch naming used in this repo: `feature/<thing>`, `fix/<thing>`, `docs/<thing>`.
+Branch naming used in this repo: `feature/<thing>`, `fix/<thing>`, `docs/<thing>` —
+and because we all share this repo during the session, namespace yours with your
+name: `feature/<YourName>/<thing>`, e.g. `feature/AhmedA/divide`.
 
 ---
 
