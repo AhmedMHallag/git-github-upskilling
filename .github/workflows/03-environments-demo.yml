@@ -1,0 +1,58 @@
+# ── Workflow 3: Environments demo ───────────────────────────────────────
+# Simulates a dev → staging → production delivery pipeline using
+# GitHub ENVIRONMENTS — with zero cloud dependencies (every "deploy" is an echo).
+#
+# One-time setup in the repo (Settings → Environments):
+#   1. Create three environments: dev, staging, production
+#      (they are also auto-created the first time this workflow runs)
+#   2. On `production`, add yourself under "Required reviewers"
+#      → the workflow PAUSES there until someone approves. Live demo gold.
+#   3. Optional: add a VARIABLE (not a secret!) named REGION on each
+#      environment (e.g. westeurope) to show per-environment configuration —
+#      the same `${{ vars.REGION }}` expression resolves differently per job.
+#
+# Note: this demo uses no secrets at all — just variables and approval rules.
+# (The only secret in the whole session is Claude's API key, see 04-claude.yml.)
+# docs/03-github-actions.md covers how secrets vs variables (vs Key Vault) fit.
+#
+name: 03 - Environments Demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to deploy"
+        default: "1.0.0"
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Deploy (simulated)
+        run: |
+          echo "🚀 Deploying version ${{ inputs.version }} to DEV"
+          echo "   region: '${{ vars.REGION }}' (from the dev environment's variables)"
+
+  deploy-staging:
+    needs: deploy-dev            # only after dev succeeded
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Deploy (simulated)
+        run: |
+          echo "🚀 Deploying version ${{ inputs.version }} to STAGING"
+          echo "   region: '${{ vars.REGION }}'"
+      - name: Smoke test (simulated)
+        run: echo "✅ Staging looks healthy"
+
+  deploy-production:
+    needs: deploy-staging        # only after staging succeeded...
+    runs-on: ubuntu-latest
+    environment: production      # ...AND after a required reviewer approves
+    steps:
+      - name: Deploy (simulated)
+        run: |
+          echo "🚀 Deploying version ${{ inputs.version }} to PRODUCTION"
+          echo "   region: '${{ vars.REGION }}'"
+          echo "🎉 Shipped!"
