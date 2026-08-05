@@ -1,0 +1,34 @@
+# ── Workflow 1: Hello World ─────────────────────────────────────────────
+# The smallest useful workflow. Anatomy:
+#
+#   workflow  →  this whole file (one YAML file = one workflow)
+#   trigger   →  the `on:` block — WHEN does it run?
+#   job       →  a group of steps that runs on ONE runner (a fresh VM)
+#   step      →  a single command (`run:`) or a reusable action (`uses:`)
+#
+name: 01 - Hello World
+
+on:
+  # Adds a manual "Run workflow" button in the Actions tab — great for demos.
+  workflow_dispatch:
+  # Also runs when this file itself changes.
+  push:
+    paths:
+      - ".github/workflows/01-hello-world.yml"
+
+jobs:
+  say-hello:
+    # Runner types: ubuntu-latest, windows-latest, macos-latest — VMs hosted
+    # by GitHub. (Companies can also register their own "self-hosted" runners.)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print a greeting
+        run: echo "Hello from GitHub Actions, ${{ github.actor }}!"
+
+      - name: Show some built-in context
+        # ${{ ... }} is an EXPRESSION — how workflows reference variables/context.
+        run: |
+          echo "Repository : ${{ github.repository }}"
+          echo "Branch/ref : ${{ github.ref_name }}"
+          echo "Event      : ${{ github.event_name }}"
+          echo "Runner OS  : ${{ runner.os }}"
