@@ -189,7 +189,93 @@ just a drill).
 
 ---
 
-## Exercise 8 — Do it all again with Claude Code (10 min)
+## Exercise 8 — Build your own workflow, live (10 min)
+
+You've *run* our pre-built pipelines — now write one from zero. Ten lines of
+YAML is a complete, working workflow.
+
+Start clean, on a fresh branch:
+
+```bash
+git switch main && git pull
+git switch -c feature/<YourName>/first-workflow
+```
+
+Create a new file `.github/workflows/hello-<yourname>.yml` — your name in the
+filename, since we all push to the same repo:
+
+```yaml
+name: Hello <YourName>
+
+on:
+  push:
+    paths:
+      - ".github/workflows/hello-<yourname>.yml"   # runs only when THIS file changes
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello from my very first workflow!"
+```
+
+Ship it and watch it run:
+
+```bash
+git add .github/workflows/hello-<yourname>.yml
+git commit -m "ci: add my first workflow"
+git push -u origin feature/<YourName>/first-workflow
+```
+
+Open the **Actions** tab: your workflow's name appears in the left sidebar —
+click the run, click the job, unfold the step, read your echo. That's the
+whole loop: YAML in the repo → machine in the cloud → logs in the browser.
+
+**Level it up** — add one thing at a time, push after each, watch what changes:
+
+1. A step that reads the event context:
+
+   ```yaml
+      - run: echo "Pushed by ${{ github.actor }} to ${{ github.ref_name }}"
+   ```
+
+2. A step in a different language — steps can run anything the runner has:
+
+   ```yaml
+      - run: print("Hello from Python on a GitHub runner!")
+        shell: python
+   ```
+
+3. A second job — and watch the Actions graph make it wait for the first:
+
+   ```yaml
+     celebrate:
+       needs: say-hello
+       runs-on: ubuntu-latest
+       steps:
+         - run: echo "say-hello finished, so now I get to run 🎉"
+   ```
+
+> **Why `on: push` and not the Run-workflow button?** The
+> `workflow_dispatch` button only appears for workflows that already exist on
+> the *default branch* (`main`). Your file lives on your own branch, so we
+> trigger on push instead — that's also why `01-hello-world.yml` (which IS on
+> main) has the button and yours doesn't yet.
+
+Cleanup: no PR for this one — when you're done, delete the branch locally
+(`git switch main && git branch -D feature/<YourName>/first-workflow`) and on
+GitHub (**Branches** page → 🗑).
+
+Want more building blocks after the session? The course repo that inspired
+this one has a folder of small, focused example workflows:
+[03-core-features](https://github.com/AhmedMHallag/github-actions-tut/tree/main/03-core-features).
+
+**Goal:** you *wrote* a workflow from scratch, triggered it, and read its logs —
+jobs, steps, expressions and `needs:` are now things you've typed, not just seen.
+
+---
+
+## Exercise 9 — Do it all again with Claude Code (10 min)
 
 Everything above, but you only *describe* the work
 ([setup instructions](04-claude-code.md)):

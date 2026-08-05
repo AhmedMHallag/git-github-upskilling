@@ -20,8 +20,8 @@ and finally with Claude Code doing the heavy lifting.
 | 00:00 – 00:10 | **Why we're here** — trunk-based development, history & motivation of CI/CD | [docs/02](docs/02-branching-and-prs.md) |
 | 00:10 – 00:35 | **Git in the terminal** — clone, log, branch, stage, commit (incl. the editor), stash, cherry-pick | [docs/01](docs/01-git-terminal-cheatsheet.md) · Exercises 1–4 |
 | 00:35 – 00:50 | **The PR ritual** — push, open a PR, review, green checks, merge (terminal, GitHub Desktop, VS Code) | [docs/02](docs/02-branching-and-prs.md) · Exercise 5 |
-| 00:50 – 01:10 | **GitHub Actions** — CI/CD, YAML, workflows/jobs/steps, runners, variables, parallel vs sequential, environments | [docs/03](docs/03-github-actions.md) · Exercises 6–7 |
-| 01:10 – 01:25 | **Claude Code** — setup, connecting to GitHub, commits/PRs/reviews from the terminal, `@claude` in PRs | [docs/04](docs/04-claude-code.md) · Exercise 8 |
+| 00:50 – 01:10 | **GitHub Actions** — CI/CD, YAML, workflows/jobs/steps, runners, variables, parallel vs sequential, environments | [docs/03](docs/03-github-actions.md) · Exercises 6–8 |
+| 01:10 – 01:25 | **Claude Code** — setup, connecting to GitHub, commits/PRs/reviews from the terminal, `@claude` in PRs | [docs/04](docs/04-claude-code.md) · Exercise 9 |
 | 01:25 – 01:30 | **Wrap-up** — Q&A · next session teaser: Bicep + Azure Key Vault | — |
 
 The full hands-on script with copy-pasteable commands is in
